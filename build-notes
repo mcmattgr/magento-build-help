@@ -1,0 +1,483 @@
+Magento Notes
+
+//Local Environment Setup
+
+http://eppz.eu/blog/virtual-host-for-mamp-on-osx/
+
+//Git Commands
+
+http://rogerdudler.github.io/git-guide/
+
+
+http://www.smashingmagazine.com/2015/07/06/hunt-for-the-webs-lost-soul/
+
+http://chilipepperdesign.com/2009/07/08/magento-how-to-protect-pages-so-only-logged-in-users-can-view-them/
+
+http://squeezr.it/
+
+http://www.implementek.com/adding-new-page-layout-for-magento-cms-pages/#.Vk3_md-rRTZ
+
+http://adaptive-images.com/
+
+//Require field format
+
+http://www.angelwatt.com/coding/masked_input.php#nav-download
+
+Then you can embed the script in page code via layout update or you can put it directly in a HTML Block type field in <script>...</script> tags.
+
+After you load the library you can apply the mask on required field with the code like this
+
+<script>
+var formattedInput = MaskedInput({
+elm: $('field437'),
+format: '___-___-____ x____',
+separator: '-x'
+});
+</script>
+
+Where 437 is your field ID number. Please find the live example here
+
+http://mageme.com/demo/webforms/index/index/id/120/
+
+
+
+//Check Inventory If Statement. Include logic at top
+
+        <?php if($inventory->getBackorders() >= 0 && $inv_qty == 0):?>
+
+        <?php else: ?>
+
+        <?php endif;?>
+
+<?php $_product = $this->getProduct() ?>
+<?php $inventory =  Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);?>
+<?php $inv_qty = (int)$inventory->getQty();?>
+
+
+//Replace Spaces with underscores in filename
+for f in *; do mv "$f" `echo $f | tr ' ' '_'`; done
+//Insert Attributes into grouped.phtml
+
+<?php echo $this->htmlEscape($_item->getAttributeText('aircraft_type')) ?>
+
+//Magento and Adwords
+
+http://inchoo.net/magento/magento-and-google-adwords-conversion-tracking/
+
+//Magento Patches
+
+http://magecomp.com/blog/how-to-install-magento-security-patches/
+
+// Active active class to CMS page navigation
+
+1. Create “subactive.js” file and place it in your js folder of the theme.
+
+jQuery(function($) {
+ var path = window.location.href; 
+ $('ul a').each(function() {
+  if (this.href === path) {
+   $(this).addClass('subactive');
+  }
+ });
+});
+
+
+2. Add the snippet below to your cms page > Design > Layout Update XML
+
+<reference name="head">
+  <action method="addItem">
+    <type>skin_js</type><script>js/subactive.js</script>
+  </action>
+</reference>
+
+3. Add .subactive to your css and style.
+
+
+//Server company to set up SOAP for external API access.
+
+
+//Serving google fonts.
+http://itheadaches.com/using-google-fonts-causes-an-ssl-insecure-content-warning-in-browsers-when-loading-magento/
+
+//Bootstrap Columns of same height.
+
+http://www.gekode.co.uk/bootstrap-3-responsive-columns-of-same-height/
+
+// If attribute value then display
+
+Create a template in catalog product view with this:
+
+<?php $safeHandlingChart = $this->getProduct()->getSafeHandlingChart(); ?>
+<?php if ($safeHandlingChart): ?>
+    <h2><?php echo $this->__('Safe Handling Chart') ?></h2>
+    <div class="std">
+        <?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $safeHandlingChart, 'safe_handling_chart ') ?>
+    </div>
+<?php endif; ?>
+
+If you create a template and put it in catalog product view folder then it shows up in tabs.
+
+// Facebook page code insertion
+
+<!-- This goes in Custom Layout Update in category after creating the block to put the fb code into-->
+
+<reference name="before_body_end">
+    <block type="cms/block" name="cms_facebook_code">
+            <action method="setBlockId"><block_id>facebook_code</block_id></action></block>        
+ </reference>
+
+
+// Code to show or do things of customer is logged in
+
+<?php if(!Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+<?php else : ?>
+<?php endif; ?>
+
+// Convert text to lowercase
+
+http://convertcase.net/
+
+//For use on template. Checks for page then shows
+
+<?php if(Mage::getSingleton('cms/page')->getIdentifier() == 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms'): ?>
+<?php if(Mage::getModel('cms/block')->load('home-slider')->getIsActive()): ?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-slider')->toHtml(); ?>
+<?php endif; ?>
+<?php endif; ?>
+
+//Export Categories for import sheets.
+
+http://www.magentoworks.net/importexport-magento-category-extension/
+
+//Set Column Count in template - goes to top of page.
+
+$_productCollection->clear()
+    ->setPageSize(3)
+     ->load();
+
+//Remove Default Blocks Magento
+
+http://www.hostknox.com/tutorials/magento/remove-default-blocks
+
+//Newsletter Submit redirection
+
+<input type="hidden" name="uenc" value="<?= Mage::helper('core')->urlEncode(Mage::app()->getStore()->getBaseUrl() . 'newsletter-thank-you') ?>"/>
+
+// Command line for converting all filenames to lowercase before import.
+
+for i in *; do mv "$i" "$(echo $i|tr A-Z a-z)"; done
+
+//Insert CMS Block into template
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-graphic')->toHtml(); ?>
+
+//Show Attribute on Product Page if Populated
+
+<?php $basemodel = $_helper->productAttribute($_product,($_product->getBaseModelNumber()), 'base_model_number');?>
+<?php if(!empty($basemodel)):?>
+        <div class="short-description">
+        <h2><?php echo $this->__('Base Model Number') ?></h2>
+            <?php echo $_product->getData('base_model_number'); ?>
+        </div>
+<?php endif;?>
+
+
+
+
+// Show Code by product Type
+
+<?php if( $_product->getTypeId() == 'simple' ): ?>
+	// Put your code here.
+<?php endif; ?>
+
+
+
+
+
+//Add this to head.phtml file for responsiveness
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+
+
+//Specfic for nav hover state → Not needed if link below is used.
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #fff;}
+
+//Bootstrap Navigation Wizard !important
+http://work.smarchal.com/twbscolor/css/e74c3cc0392becf0f1ffbbbc0
+
+
+
+//Back to Top Button
+
+Step-1 Add this Div in Footer.phtml
+
+<div id="BackToTop" style="display: block;"></div>
+
+Step-2 Add this Java script in footer.phtml
+
+<script type="text/javascript">
+	jQuery(function() {
+    	jQuery(window).scroll(function() {
+		if(jQuery(this).scrollTop() > 250) {
+			jQuery('#back_top').fadeIn();    
+		} else {
+			jQuery('#back_top').fadeOut();
+		}
+	});
+   	jQuery('#back_top').click(function() {
+		jQuery('body,html').animate({scrollTop:0},500);
+	});    
+	});
+ </script>
+
+Step-3 Add this CSS in styles.css
+
+
+	#BackToTop {
+             background-image: url(‘’);
+	bottom: 25px;
+	cursor: pointer;
+	display: none;
+	height: 50px;
+	position: fixed;
+	right: 200px;
+	width: 50px;
+}
+
+
+//Removes My Cart and Checkout Links from Top Links
+<remove name="checkout_cart_link"/>
+
+//Remove reference from cron.sh or cron.php
+	Creates loop thats hard on server resources.
+
+//Magento WYSIWYG Important Edits
+http://www.pixafy.com/blog/2013/06/overcoming-magentos-wysiwyg-part-2-customizing-tinymce-settings
+
+//Use SVGs as Nav Items Magento
+	li{
+	&.level0{
+		&.nav-1.first.level-top.parent.dropdown{
+			background-image: url('../images/svg/noun_10675_cc.svg');
+			background-size: auto 40px;
+			background-repeat: no-repeat;
+			background-position: 50% 40%;
+
+		}
+	}
+
+
+
+
+
+
+
+
+
+// Embedded Google Map
+
+//CSS
+
+#map-canvas { 
+	width:100%;
+	height:400px !important;
+}
+	//JS
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script>
+      function initialize() {
+        var mapCanvas = document.getElementById('map-canvas');
+        var mapOptions = {
+          center: new google.maps.LatLng(42.914454, -85.739721),
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(mapCanvas, mapOptions)
+      
+        var marker = new google.maps.Marker({  
+            position: new google.maps.LatLng(42.914454, -85.739721),  
+            map: map  
+    });
+
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+	//HTML
+
+<div id="map-canvas"></div>
+
+
+
+
+
+
+
+
+//Add Search to CMS Page
+
+{{block type="core/template" name="home.search" as="homeSearch" template="catalogsearch/form.mini.phtml"}}
+
+//Add Newsletter to CMS
+
+{{block type="newsletter/subscribe" template="newsletter/subscribe.phtml"}}
+
+//Add CDNs to local.xml (CLEAR CACHE)
+
+<reference name="head">
+        <block type="core/text" name="bootstrap.cdn.css">
+            <action method="setText">
+                <text><![CDATA[<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">]]>
+                </text>
+            </action>
+        </block>
+</reference>
+
+
+//Add CDN Bootstrap and jQuery 
+
+<block type="core/text" name="jquerycdn">
+<action method="setText">
+<text><![CDATA[<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script type="text/javascript">jQuery.noConflict();</script>]]>
+</text>
+</action>
+</block>
+<block type="core/text" name="bootstrap">
+<action method="setText">
+<text><![CDATA[<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>]]>
+</text>
+</action>
+</block>
+
+
+// Add Featured items to homepage
+
+{{block type="catalog/product_list" column_count="4" category_id="43" template="catalog/product/list.phtml"}}
+
+Create a template with your customizations first.
+
+// Bootstrap Menu Flash boot strap fix
+
+/* Menu Fixes */
+#headerNavigation ul{
+    display: none;
+}
+
+#headerNavigation li.level1 > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+// Image Overlay Attribute
+
+http://www.woolleydesign.net/2013/07/magento-shop-product-labels-in-category-view-pages/
+
+//Bootstrap Media Queries
+
+http://stackoverflow.com/questions/18424798/twitter-bootstrap-3-how-to-use-media-queries
+
+//Scratch and Dent Attribute from Elders
+
+<!--Scratch and Dent start-->
+<?php if ($_product->getAttributeText('scratch_and_dent') == "Yes"): ?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('scratch_and_dent')->toHtml() ?>
+<?php endif; ?>
+<!--Scratch and Dent end-->
+
+<!--MSRP and Scratch and Dent Price-->
+<?php if ($_product->getAttributeText('scratch_and_dent') == "Yes"): ?>
+<?php $_price = $this->helper('tax')->getPrice($_product, $_product->getMsrp()) ?>
+<?php if ($_product->getMsrp()): ?>
+ <?php $_msrpPrice = $this->helper('core')->currency($_product->getMsrp(),true,true) ?>
+<p class="special-price">
+<span class="price-label"><?php echo $this->__('MSRP:'); ?></span>
+ <span class="old-price" id="product-price-<?php echo $_product->getId() ?>
+<?php echo $this->getIdSuffix() ?>"><?php echo $_msrpPrice ?></span>
+</p>
+<?php endif; ?>
+<?php endif; ?>
+<!--MSRP and Scratch and Dent Price-->
+<?php if ($_product->getAttributeText('scratch_and_dent') == "Yes"): ?>
+<p class="scratchDentprice">
+<span class=""><?php echo $this->__('Our Price: $'); ?></span>
+<?php echo $_product->getData('scratch_and_dent_price'); ?> 
+</p>
+<?php endif; ?>
+
+// Magento Button call to product page
+
+<button type="button" class="button btn-cart" onclick="setLocation('<?php echo $_product->getProductUrl() ?>')"><span><span><?php echo $this->__('View Product') ?></span></span></button>
+
+//Github Repository
+
+Groupvertical.com Repository
+How to setup a test account.
+Clone this repo to a folder using git clone https://github.com/jayelkaake/gvprod_mage
+Then run the following commands from the root directory:
+mkdir var media
+chmod -R 0777 var media includes
+cp -rpv app/etc/local.xml-gvprod_example local.xml
+git update-index --assume-unchanged index.php
+mv index.php index.php-prod && mv index.php-developer index.php
+chmod 0775 index.php
+chmod 0750 index.php-prod
+Add any media files you want to show.
+Create a dump of the live database and import it into a local database.
+Edit app/etc/local.xml with your new database credentials.
+Edit /etc/hosts (or c:\Windows\System32\Drivers\etc\hosts on windows)
+Add 127.0.0.1 local.groupvertical.com
+Edit /etc/apache2/extra/httpd-vhosts.conf or your own .conf file and update/**LOCAL/PATH/TO/THIS/REPO**/gvprod_mage/
+Add the following to the bottom:
+<VirtualHost *:80>
+    DocumentRoot "/**LOCAL/PATH/TO/THIS/REPO**/gvprod_mage/"
+    ServerName local.groupvertical.com
+    <Directory />
+    Options Indexes FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        Require all granted
+        deny from none
+    </Directory>
+</VirtualHost>
+
+
+Go into your local database and run the following SQL command:
+-- Replace domain to local.groupvertical.com
+UPDATE core_config_data 
+SET value = REPLACE(value, 'www.groupvertical.com', 'local.groupvertical.com')
+WHERE value LIKE '%groupvertical.com%';
+-- Turn off HTTPS:
+UPDATE core_config_data 
+SET value = REPLACE(value, 'https://local.groupvertical.com', 'http://local.groupvertical.com')
+WHERE path = 'web/secure/base_url';
+And that's it! Try accessing http://local.groupvertical.com and http://local.groupvertical.com/gv_admin and ensure it's all working.
+Additional Considerations
+If you have media/ files and you want to install them, then you should extract them on your own. They are not included in the repo because they are large (~5gb).
+If you're using modman (which you totally should) you should run this command before adding any modules to allow the repo to still be committed. Modifying other extensions will be ignored.
+find . -type l | sed -e s'/^\.\///g' >> .gitignore
+
+
+You should install git-ftp to sync files up to the main server once changes have been made.
+You may want to disable the store order sync system like this:
+git update-index --assume-unchanged app/etc/modules/LinnSystems_LinnLiveConnect.xml
+rm app/etc/modules/LinnSystems_LinnLiveConnect.xml
+
+
+What this basically does is it turns off the LinnSystems live connect by removing it's config file and ignores it from repo changes.
+Testing
+Paypal Test Sandbox Credentials
+Classic TEST API credentials
+Username: jay+paypaltest_api1.wellfounded.ca
+Password: WC5Z8NYGGEA33AXU
+Signature: AFcWxV21C7fd0v3bYYYRCpSSRl31A83Gvebz4FBuh3ZT.2LnYGxKxIqN
+Bank Account
+Account number:977294171446
+Routing number:325272063
+Credit card
+Credit card number: 4032031706631388
+Credit card type: VISA
+Expiration date: 6/2020
+
