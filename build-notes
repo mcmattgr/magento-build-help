@@ -1,5 +1,11 @@
 Magento Notes
 
+// Display only if Price is not zero
+
+     <?php if ($_product->getFinalPrice() !== 0) : ?> 
+          <?php echo $this->getPriceHtml($_product, true) ?>
+        <?php endif; ?> 
+
 //Local Environment Setup
 
 http://eppz.eu/blog/virtual-host-for-mamp-on-osx/
