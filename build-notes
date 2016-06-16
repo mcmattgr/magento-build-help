@@ -1,4 +1,20 @@
-Magento Notes
+
+<strong>Magento 2 Notes</strong>
+
+Code snippet to add blocks to phtml file:
+
+<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('shop_by_category')->toHtml(); ?>
+
+
+
+
+
+
+
+
+
+
+<strong>Magento 1.x Notes</strong>
 
 // Display only if Price is not zero
 
